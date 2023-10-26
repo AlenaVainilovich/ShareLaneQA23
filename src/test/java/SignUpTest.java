@@ -114,4 +114,99 @@ public class SignUpTest {
         Assert.assertEquals(signUpMessage, "Oops, error on page. Some of your fields have invalid data or email was previously used");
         driver.quit();
     }
+
+    @Test
+    public void firstNameFieldShouldBeRequired() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py");
+        driver.findElement(By.name("zip_code")).sendKeys("11111");
+        driver.findElement(By.cssSelector("[value = Continue]")).click();
+        driver.findElement(By.name("last_name")).sendKeys("Doe");
+        driver.findElement(By.name("email")).sendKeys("qwertys@tut.by");
+        driver.findElement(By.name("password1")).sendKeys("123456");
+        driver.findElement(By.name("password2")).sendKeys("123456");
+        driver.findElement(By.cssSelector("[value = Register]")).click();
+        String signUpMessage = driver.findElement(By.cssSelector("[class=error_message]")).getText();
+        Assert.assertEquals(signUpMessage, "Oops, error on page. Some of your fields have invalid data or email was previously used");
+        driver.quit();
+    }
+
+    @Test
+    public void emailFieldShouldBeRequired() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=11111");
+        driver.findElement(By.name("first_name")).sendKeys("John");
+        driver.findElement(By.name("last_name")).sendKeys("Doe");
+        driver.findElement(By.name("password1")).sendKeys("123456");
+        driver.findElement(By.name("password2")).sendKeys("123456");
+        driver.findElement(By.cssSelector("[value = Register]")).click();
+        String signUpMessage = driver.findElement(By.cssSelector("[class=error_message]")).getText();
+        Assert.assertEquals(signUpMessage, "Oops, error on page. Some of your fields have invalid data or email was previously used");
+        driver.quit();
+    }
+
+    @Test
+    public void passwordFieldShouldBeRequired() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=11111");
+        driver.findElement(By.name("first_name")).sendKeys("John");
+        driver.findElement(By.name("last_name")).sendKeys("Doe");
+        driver.findElement(By.name("email")).sendKeys("qwertys@tut.by");
+        driver.findElement(By.name("password2")).sendKeys("123456");
+        driver.findElement(By.cssSelector("[value = Register]")).click();
+        String signUpMessage = driver.findElement(By.cssSelector("[class=error_message]")).getText();
+        Assert.assertEquals(signUpMessage, "Oops, error on page. Some of your fields have invalid data or email was previously used");
+        driver.quit();
+    }
+
+    @Test
+    public void confirmPasswordFieldShouldBeRequired() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=11111");
+        driver.findElement(By.name("first_name")).sendKeys("John");
+        driver.findElement(By.name("last_name")).sendKeys("Doe");
+        driver.findElement(By.name("email")).sendKeys("qwertys@tut.by");
+        driver.findElement(By.name("password1")).sendKeys("123456");
+        driver.findElement(By.cssSelector("[value = Register]")).click();
+        String signUpMessage = driver.findElement(By.cssSelector("[class=error_message]")).getText();
+        Assert.assertEquals(signUpMessage, "Oops, error on page. Some of your fields have invalid data or email was previously used");
+        driver.quit();
+    }
+
+    @Test
+    public void lastNameFieldIsNotRequired() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=11111");
+        driver.findElement(By.name("first_name")).sendKeys("John");
+        driver.findElement(By.name("email")).sendKeys("qwertys@tut.by");
+        driver.findElement(By.name("password1")).sendKeys("123456");
+        driver.findElement(By.name("password2")).sendKeys("123456");
+        driver.findElement(By.cssSelector("[value = Register]")).click();
+        String signUpMessage = driver.findElement(By.cssSelector("[class=confirmation_message]")).getText();
+        Assert.assertEquals(signUpMessage, "Account is created!");
+        driver.quit();
+    }
+
+    @Test
+    public void passwordAndConfirmPasswordFieldsShouldBeEqual() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py");
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=11111");
+        driver.findElement(By.name("first_name")).sendKeys("Joe");
+        driver.findElement(By.name("last_name")).sendKeys("Doe");
+        driver.findElement(By.name("email")).sendKeys("qwertys@tut.by");
+        driver.findElement(By.name("password1")).sendKeys("123456");
+        driver.findElement(By.name("password2")).sendKeys("654321");
+        driver.findElement(By.cssSelector("[value = Register]")).click();
+        String signUpMessage = driver.findElement(By.cssSelector("[class=error_message]")).getText();
+        Assert.assertEquals(signUpMessage, "Oops, error on page. Some of your fields have invalid data or email was previously used");
+        driver.quit();
+    }
+
 }

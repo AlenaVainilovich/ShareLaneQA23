@@ -42,4 +42,79 @@ public class ShoppingCartTest {
 
         driver.quit();
     }
+
+    @Test
+    public void discountShouldBe2() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=2&zip_code=56987&first_name=John&last_name=Doe" +
+                "&email=sharelane%40gmail.com&password1=12345678&password2=12345678");
+        String email = driver.findElement(By.xpath("//*[contains(text(), 'Email')]/..//b")).getText();
+        driver.get("https://www.sharelane.com/cgi-bin/main.py");
+        driver.findElement(By.name("email")).sendKeys(email);
+        driver.findElement(By.name("password")).sendKeys("1111");
+        driver.findElement(By.cssSelector("[value=Login]")).click();
+        driver.get("https://www.sharelane.com/cgi-bin/add_to_cart.py?book_id=1");
+        driver.get("https://www.sharelane.com/cgi-bin/shopping_cart.py");
+        driver.findElement(By.name("q")).clear();
+        driver.findElement(By.name("q")).sendKeys("20");
+        driver.findElement(By.cssSelector("[value=Update]")).click();
+        String discountPercent = driver.findElement(By.xpath("//table/tbody/tr[6]/td/table/tbody/tr[2]/td[5]/p/b")).getText();
+        String discount$ = driver.findElement(By.xpath("//table/tbody/tr[6]/td/table/tbody/tr[2]/td[6]")).getText();
+        String total = driver.findElement(By.xpath("//table/tbody/tr[6]/td/table/tbody/tr[2]/td[7]")).getText();
+        Assert.assertEquals(discountPercent, "2");
+        Assert.assertEquals(discount$, "4.0");
+        Assert.assertEquals(total, "196");
+        driver.quit();
+    }
+
+    @Test
+    public void discountShouldBe3BFor50Books() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=2&zip_code=56987&first_name=John&last_name=Doe" +
+                "&email=sharelane%40gmail.com&password1=12345678&password2=12345678");
+        String email = driver.findElement(By.xpath("//*[contains(text(), 'Email')]/..//b")).getText();
+        driver.get("https://www.sharelane.com/cgi-bin/main.py");
+        driver.findElement(By.name("email")).sendKeys(email);
+        driver.findElement(By.name("password")).sendKeys("1111");
+        driver.findElement(By.cssSelector("[value=Login]")).click();
+        driver.get("https://www.sharelane.com/cgi-bin/add_to_cart.py?book_id=1");
+        driver.get("https://www.sharelane.com/cgi-bin/shopping_cart.py");
+        driver.findElement(By.name("q")).clear();
+        driver.findElement(By.name("q")).sendKeys("50");
+        driver.findElement(By.cssSelector("[value=Update]")).click();
+        String discountPercent = driver.findElement(By.xpath("//table/tbody/tr[6]/td/table/tbody/tr[2]/td[5]/p/b")).getText();
+        String discount$ = driver.findElement(By.xpath("//table/tbody/tr[6]/td/table/tbody/tr[2]/td[6]")).getText();
+        String total = driver.findElement(By.xpath("//table/tbody/tr[6]/td/table/tbody/tr[2]/td[7]")).getText();
+        Assert.assertEquals(discountPercent, "3");
+        Assert.assertEquals(discount$, "15.0");
+        Assert.assertEquals(total, "485");
+        driver.quit();
+    }
+
+    @Test
+    public void discountShouldBe3For51Books() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=2&zip_code=56987&first_name=John&last_name=Doe" +
+                "&email=sharelane%40gmail.com&password1=12345678&password2=12345678");
+        String email = driver.findElement(By.xpath("//*[contains(text(), 'Email')]/..//b")).getText();
+        driver.get("https://www.sharelane.com/cgi-bin/main.py");
+        driver.findElement(By.name("email")).sendKeys(email);
+        driver.findElement(By.name("password")).sendKeys("1111");
+        driver.findElement(By.cssSelector("[value=Login]")).click();
+        driver.get("https://www.sharelane.com/cgi-bin/add_to_cart.py?book_id=1");
+        driver.get("https://www.sharelane.com/cgi-bin/shopping_cart.py");
+        driver.findElement(By.name("q")).clear();
+        driver.findElement(By.name("q")).sendKeys("51");
+        driver.findElement(By.cssSelector("[value=Update]")).click();
+        String discountPercent = driver.findElement(By.xpath("//table/tbody/tr[6]/td/table/tbody/tr[2]/td[5]/p/b")).getText();
+        String discount$ = driver.findElement(By.xpath("//table/tbody/tr[6]/td/table/tbody/tr[2]/td[6]")).getText();
+        String total = driver.findElement(By.xpath("//table/tbody/tr[6]/td/table/tbody/tr[2]/td[7]")).getText();
+        Assert.assertEquals(discountPercent, "3");
+        Assert.assertEquals(discount$, "15.3");
+        Assert.assertEquals(total, "494.7");
+        driver.quit();
+    }
 }
